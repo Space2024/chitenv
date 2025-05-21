@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './store/store';
 import { setFormData } from './store/formSlice';
 import axios from 'axios';
-import CHIT_API from './config';
+// import CHIT_API from './config';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Clock, RefreshCw, Send } from 'lucide-react';
@@ -311,7 +311,7 @@ export default function MultiStepForm() {
         formDataWithFiles.append('images', formData.photo2);
       }
   
-      const response = await axios.post(`${CHIT_API}/chit_customer`, formDataWithFiles, {
+      const response = await axios.post(`https://cust.spacetextiles.net/chit_customer`, formDataWithFiles, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
   
@@ -346,7 +346,7 @@ export default function MultiStepForm() {
 
     setIsResending(true);
     try {
-      await axios.get(`${CHIT_API}/resend/${formData.mobileNo}?sessionId=${sessionId}`);
+      await axios.get(`https://cust.spacetextiles.net/resend/${formData.mobileNo}?sessionId=${sessionId}`);
       addNotification('OTP resent successfully', 'success');
       setTimer(OTP_TIMEOUT);
       setIsTimerRunning(true);
@@ -403,7 +403,7 @@ export default function MultiStepForm() {
           return;
         }
     
-        const response = await axios.post(`${CHIT_API}/chit_verify_otp`, {
+        const response = await axios.post(`https://cust.spacetextiles.net/chit_verify_otp`, {
           OTP: otp,
           mobileNo: formData.mobileNo,
           sessionId: sessionId
@@ -568,7 +568,7 @@ export default function MultiStepForm() {
 
     setIsMobileVerifying(true);
     try {
-      const response = await axios.get(`${CHIT_API}/customer/${mobileNo}`);
+      const response = await axios.get(`https://cust.spacetextiles.net/customer/${mobileNo}`);
 
       if (response.data && response.data.status === 'V'|| response.data.status === 'P') {
         // Populate form data with existing customer information
